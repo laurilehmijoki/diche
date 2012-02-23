@@ -17,7 +17,7 @@ class WebSiteChecker
         request = EM::HttpRequest.new(url).get
         
         request.callback {
-          @logger.log_success({"url"=>url, "code"=>request.response_header.status, "time"=>(Time.now - start)})
+          @logger.log_success({"url"=>url, "code"=>request.response_header.status, "latency"=>(Time.now - start)})
           on_done
         }
 
