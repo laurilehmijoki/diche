@@ -17,7 +17,6 @@ describe LogAdmin do
     LogAdmin.new.add_url(url)
     
     urls = LogAdmin.new.list_urls
-    puts urls
     url_read = urls.include?url
     url_read.should == true
   end
