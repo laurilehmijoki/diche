@@ -14,15 +14,39 @@ $: << File.expand_path(File.dirname(File.realpath(__FILE__)) + '/../lib')
 require 'rubygems'
 require 'gli'
 require File.dirname(__FILE__)+"/../lib/checker/log_admin"
+require File.dirname(__FILE__)+"/../lib/checker/web_site_checker"
+require File.dirname(__FILE__)+"/../lib/checker/logger"
 
 include GLI
 
 program_desc 'Diche – distributed web site checker'
 
+desc 'Add a URL into the database'
+command [:add_url] do |c|
+  c.action do |global_options,options,args|
+    raise "Please enter a URL" if args.length == 0 
+    raise "Invalid URL" unless args[0] =~ /^https?:\/\/.*$/
+    LogAdmin.new.add_url(args[0])
+  end 
+end
+
 desc 'Delete the URLs in the database'
 command [:delete_urls] do |c|
   c.action do |global_options,options,args|
     LogAdmin.new.delete_urls
+  end 
+end
+
+desc 'Check each URL in the database'
+command [:check] do |c|
+  c.action do |global_options,options,args|
+    urls =  LogAdmin.new.list_urls
+    if urls.empty?
+      abort "No URLs in the database"
+    end
+
+    logger = Logger.new
+    WebSiteChecker.new(urls, logger)
   end 
 end
 
