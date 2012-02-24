@@ -1,22 +1,10 @@
-require 'yaml'
-require 'aws-sdk'
 require 'uuidtools'
-
-module AWSHelper
-  def self.dynamo_db_table(config_file)
-    aws_config_file = File.dirname(__FILE__)+"/../../config/#{config_file}"
-    raise("Oops! You seem to have forgotten to create the config file #{aws_config_file}") unless File.exists?(aws_config_file)
-    config = YAML::load(File.open(aws_config_file))
-    dynamo_db = AWS::DynamoDB.new({"access_key_id"=>config['key'], "secret_access_key"=>config['secret']}) 
-    table = dynamo_db.tables[config['table']]
-    table.load_schema
-  end
-end
+require File.dirname(__FILE__)+"/../common/aws_helper"
 
 class Logger
 
-  def initialize(config_file="aws.yml")
-    @dynamo_db_table = AWSHelper::dynamo_db_table(config_file)
+  def initialize
+    @table_url_logs = AWSHelper.table_url_logs
   end 
   def log_success(hash)
     log(hash)
@@ -31,7 +19,7 @@ class Logger
   def log(hash)
     hash.store("uuid", UUIDTools::UUID.random_create.to_s)
     hash.store("created", Time.new.to_s)
-    @dynamo_db_table.items.create(hash)
+    @table_url_logs.items.create(hash)
     hash['uuid']
   end
 end
