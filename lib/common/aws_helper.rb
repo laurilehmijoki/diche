@@ -18,7 +18,7 @@ class AWSHelper
 
   def self.table_url_logs
     table = dynamo_db.tables['url_logs']
-    table.load_schema
+    table.load_schema unless table.schema_loaded?
   end
 
   def self.table_urls
