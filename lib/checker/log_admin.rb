@@ -17,4 +17,10 @@ class LogAdmin
     }
     urls
   end
+
+  def delete_urls
+    AWSHelper.table_urls.items.select.each { |item_data|
+      item_data.item.delete
+    } 
+  end
 end
