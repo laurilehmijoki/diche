@@ -23,6 +23,6 @@ class AWSHelper
 
   def self.table_urls
     table = dynamo_db.tables['urls']
-    table.load_schema
+    table.load_schema unless table.schema_loaded?
   end
 end
