@@ -9,4 +9,12 @@ class LogAdmin
     AWSHelper.table_urls.items.create(hash)
     hash['uuid']
   end
+
+  def list_urls
+    urls = Array.new
+    AWSHelper.table_urls.items.each{ |item|
+      urls.push(item.attributes["url"])
+    }
+    urls
+  end
 end
