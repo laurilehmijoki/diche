@@ -4,7 +4,7 @@ require 'uuidtools'
 
 module AWSHelper
   def self.dynamo_db_table(config_file)
-    aws_config_file = File.dirname(__FILE__)+"/../config/#{config_file}"
+    aws_config_file = File.dirname(__FILE__)+"/../../config/#{config_file}"
     raise("Oops! You seem to have forgotten to create the config file #{aws_config_file}") unless File.exists?(aws_config_file)
     config = YAML::load(File.open(aws_config_file))
     dynamo_db = AWS::DynamoDB.new({"access_key_id"=>config['key'], "secret_access_key"=>config['secret']}) 

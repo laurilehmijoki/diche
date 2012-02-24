@@ -1,5 +1,5 @@
 require 'rspec'
-require File.dirname(__FILE__)+"/../../lib/web_site_checker"
+require File.dirname(__FILE__)+"/../../../lib/checker/web_site_checker"
 
 describe WebSiteChecker do
   it "logs a non-exiting host as failure" do

@@ -1,5 +1,5 @@
 require 'rspec'
-require File.dirname(__FILE__)+"/../../lib/logger"
+require File.dirname(__FILE__)+"/../../../lib/checker/logger"
 
 describe Logger do
   it "writes a log record into AWS DynamoDB" do
