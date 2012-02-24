@@ -1,0 +1,37 @@
+#!/usr/bin/env ruby
+# 1.9 adds realpath to resolve symlinks; 1.8 doesn't
+# have this method, so we add it so we get resolved symlinks
+# and compatibility
+unless File.respond_to? :realpath
+  class File #:nodoc:
+    def self.realpath path
+      return realpath(File.readlink(path)) if symlink?(path)
+      path
+    end
+  end
+end
+$: << File.expand_path(File.dirname(File.realpath(__FILE__)) + '/../lib')
+require 'rubygems'
+require 'gli'
+require File.dirname(__FILE__)+"/../lib/checker/log_admin"
+
+include GLI
+
+program_desc 'Diche – distributed web site checker'
+
+desc 'Delete the URLs in the database'
+command [:delete_urls] do |c|
+  c.action do |global_options,options,args|
+    LogAdmin.new.delete_urls
+  end 
+end
+
+desc 'List the URLs in the database'
+command [:urls] do |c|
+  c.action do |global_options,options,args|
+    urls =  LogAdmin.new.list_urls
+    puts "No URLs in the database" if urls.empty?
+    puts urls unless urls.empty?
+  end 
+end
+exit GLI.run(ARGV)
