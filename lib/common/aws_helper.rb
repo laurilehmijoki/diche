@@ -20,4 +20,9 @@ class AWSHelper
     table = dynamo_db.tables['url_logs']
     table.load_schema
   end
+
+  def self.table_urls
+    table = dynamo_db.tables['urls']
+    table.load_schema
+  end
 end
