@@ -46,7 +46,9 @@ class LogAdmin
 
   def add_common_attributes(hash)
     hash.store("uuid", UUIDTools::UUID.random_create.to_s)
-    hash.store("created", Time.new.to_s)
+    now = Time.new
+    hash.store("created", now.to_s)
+    hash.store("created_since_epoch", now.to_i)
     hash
   end
 end
