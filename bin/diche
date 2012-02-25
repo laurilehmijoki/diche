@@ -19,7 +19,7 @@ require File.dirname(__FILE__)+"/../lib/checker/logger"
 
 include GLI
 
-program_desc 'Diche – distributed web site checker'
+program_desc 'Diche – DIstributed web site CHEcker'
 
 desc 'Add a URL into the database'
 command [:add_url] do |c|
