@@ -1,5 +1,5 @@
 require 'uuidtools'
-require File.dirname(__FILE__)+"/../common/aws_helper"
+require File.dirname(__FILE__)+"/log_admin"
 
 class Logger
   def log_success(hash)
@@ -13,11 +13,6 @@ class Logger
   private
 
   def log(hash)
-    table_url_logs = AWSHelper.table_url_logs
-    
-    hash.store("uuid", UUIDTools::UUID.random_create.to_s)
-    hash.store("created", Time.new.to_s)
-    table_url_logs.items.create(hash)
-    hash['uuid']
+    LogAdmin.new.add_url_log(hash)
   end
 end
