@@ -20,4 +20,12 @@ describe LogAdmin do
     url_read = urls.include?url
     url_read.should == true
   end
+
+  it "deletes URLs from the database" do
+    pending
+  end
+
+  it "reads log entries from the database" do
+    pending
+  end
 end 
