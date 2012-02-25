@@ -22,10 +22,16 @@ class LogAdmin
     } 
   end
 
+  def delete_url_logs
+    AWSHelper.table_url_logs.items.select.each { |item_data|
+      item_data.item.delete
+    } 
+  end
+
   def list_url_logs
     logs = Array.new
     AWSHelper.table_url_logs.items.each{ |item|
-      logs.push(item.attributes["url"])
+      logs.push(item.attributes.to_h)
     }
     logs
   end

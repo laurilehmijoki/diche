@@ -13,6 +13,7 @@ end
 $: << File.expand_path(File.dirname(File.realpath(__FILE__)) + '/../lib')
 require 'rubygems'
 require 'gli'
+require 'json'
 require File.dirname(__FILE__)+"/../lib/checker/log_admin"
 require File.dirname(__FILE__)+"/../lib/checker/web_site_checker"
 require File.dirname(__FILE__)+"/../lib/checker/logger"
@@ -46,10 +47,28 @@ command [:check] do |c|
     end
 
     logger = Logger.new
-    WebSiteChecker.new(urls, logger)
+    WebSiteChecker.new(urls, logger).check
   end 
 end
 
+desc 'List the log entries in the database'
+command [:logs] do |c|
+  c.action do |global_options,options,args|
+    logs =  LogAdmin.new.list_url_logs
+    if logs.empty?
+      puts "No logs in the database" 
+    else
+      puts JSON.pretty_generate(logs)
+    end
+  end 
+end
+
+desc 'Dlete the log entries from the database'
+command [:delete_logs] do |c|
+  c.action do |global_options,options,args|
+    LogAdmin.new.delete_url_logs
+  end 
+end
 desc 'List the URLs in the database'
 command [:urls] do |c|
   c.action do |global_options,options,args|

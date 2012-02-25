@@ -28,4 +28,7 @@ describe LogAdmin do
   it "reads log entries from the database" do
     pending
   end
+  it "deletes log entries from the database" do
+    pending
+  end
 end 
