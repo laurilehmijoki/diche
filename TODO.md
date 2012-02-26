@@ -1,5 +1,3 @@
-# Periodically send new log entries to the WebSocket client
-
 # Use Twitter Bootstrap in the web UI
 
 # Define the region on the CLI
