@@ -14,7 +14,7 @@ $: << File.expand_path(File.dirname(File.realpath(__FILE__)) + '/../lib')
 require 'rubygems'
 require 'gli'
 require 'json'
-require File.dirname(__FILE__)+"/../lib/checker/log_admin"
+require File.dirname(__FILE__)+"/../lib/checker/database"
 require File.dirname(__FILE__)+"/../lib/checker/web_site_checker"
 require File.dirname(__FILE__)+"/../lib/checker/logger"
 
@@ -27,21 +27,21 @@ command [:add_url] do |c|
   c.action do |global_options,options,args|
     raise "Please enter a URL" if args.length == 0 
     raise "Invalid URL" unless args[0] =~ /^https?:\/\/.*$/
-    LogAdmin.new.add_url(args[0])
+    Database.new.add_url(args[0])
   end 
 end
 
 desc 'Delete the URLs in the database'
 command [:delete_urls] do |c|
   c.action do |global_options,options,args|
-    LogAdmin.new.delete_urls
+    Database.new.delete_urls
   end 
 end
 
 desc 'Check each URL in the database'
 command [:check] do |c|
   c.action do |global_options,options,args|
-    urls =  LogAdmin.new.list_urls
+    urls =  Database.new.list_urls
     if urls.empty?
       abort "No URLs in the database"
     end
@@ -54,7 +54,7 @@ end
 desc 'List the log entries in the database'
 command [:logs] do |c|
   c.action do |global_options,options,args|
-    logs =  LogAdmin.new.list_url_logs
+    logs =  Database.new.list_url_logs
     if logs.empty?
       puts "No logs in the database" 
     else
@@ -66,13 +66,13 @@ end
 desc 'Delete the log entries from the database'
 command [:delete_logs] do |c|
   c.action do |global_options,options,args|
-    LogAdmin.new.delete_url_logs
+    Database.new.delete_url_logs
   end 
 end
 desc 'List the URLs in the database'
 command [:urls] do |c|
   c.action do |global_options,options,args|
-    urls =  LogAdmin.new.list_urls
+    urls =  Database.new.list_urls
     puts "No URLs in the database" if urls.empty?
     puts urls unless urls.empty?
   end 

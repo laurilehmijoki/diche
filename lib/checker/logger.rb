@@ -1,5 +1,5 @@
 require 'uuidtools'
-require File.dirname(__FILE__)+"/log_admin"
+require File.dirname(__FILE__)+"/database"
 
 class Logger
   def log_success(hash)
@@ -13,6 +13,6 @@ class Logger
   private
 
   def log(hash)
-    LogAdmin.new.add_url_log(hash)
+    Database.new.add_url_log(hash)
   end
 end

@@ -1,10 +1,10 @@
 require 'rspec'
-require File.dirname(__FILE__)+"/../../../lib/checker/log_admin"
+require File.dirname(__FILE__)+"/../../../lib/checker/database"
 
-describe LogAdmin do
+describe Database do
 
   it "adds new URLs into the database" do
-    uuid = LogAdmin.new.add_url("http://google.fi")
+    uuid = Database.new.add_url("http://google.fi")
 
     AWSHelper.table_urls.batch_get(:all, uuid).each_with_index{ |result, index| 
       index.should == 0 # There should be exactly result
@@ -14,9 +14,9 @@ describe LogAdmin do
 
   it "reads URLs from the database" do
     url = "http://google#{rand(100000)}.fi"
-    LogAdmin.new.add_url(url)
+    Database.new.add_url(url)
     
-    urls = LogAdmin.new.list_urls
+    urls = Database.new.list_urls
     url_read = urls.include?url
     url_read.should == true
   end

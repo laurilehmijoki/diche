@@ -1,7 +1,7 @@
 require File.dirname(__FILE__)+"/../common/aws_helper"
 require 'uuidtools'
 
-class LogAdmin
+class Database
   def add_url(url)
     hash = {"url"=>url}
     AWSHelper.table_urls.items.create(add_common_attributes(hash))
@@ -46,9 +46,7 @@ class LogAdmin
 
   def add_common_attributes(hash)
     hash.store("uuid", UUIDTools::UUID.random_create.to_s)
-    now = Time.new
-    hash.store("created", now.to_s)
-    hash.store("created_since_epoch", now.to_i)
+    hash.store("date", Time.new.to_i)
     hash
   end
 end
