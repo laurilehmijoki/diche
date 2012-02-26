@@ -1,5 +1,5 @@
 require 'rspec'
-require File.dirname(__FILE__)+"/../../../lib/checker/database"
+require File.dirname(__FILE__)+"/../../../lib/common/database"
 
 describe Database do
 

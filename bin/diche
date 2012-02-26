@@ -14,7 +14,7 @@ $: << File.expand_path(File.dirname(File.realpath(__FILE__)) + '/../lib')
 require 'rubygems'
 require 'gli'
 require 'json'
-require File.dirname(__FILE__)+"/../lib/checker/database"
+require File.dirname(__FILE__)+"/../lib/common/database"
 require File.dirname(__FILE__)+"/../lib/checker/web_site_checker"
 require File.dirname(__FILE__)+"/../lib/checker/logger"
 

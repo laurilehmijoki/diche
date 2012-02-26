@@ -1,5 +1,5 @@
 require 'uuidtools'
-require File.dirname(__FILE__)+"/database"
+require File.dirname(__FILE__)+"/../common/database"
 
 class Logger
   def log_success(hash)
