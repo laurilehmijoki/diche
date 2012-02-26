@@ -31,4 +31,12 @@ describe Database do
   it "deletes log entries from the database" do
     pending
   end
+
+  it "reads [newer-than-date] log entries from the database" do
+    now = Time.new
+    Database.new.add_url_log({"message"=>now.to_s})
+    logs = Database.new.load_url_logs(now-1)
+
+    logs.one?{|log| log['message'] == now.to_s}.should == true
+  end
 end 

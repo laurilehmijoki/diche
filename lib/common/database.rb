@@ -29,9 +29,12 @@ class Database
     } 
   end
 
-  def load_url_logs
+  # Loads URL logs from the database
+  # If 'since' (a Time instance) is defined, loads entries that have been added after that date.
+  def load_url_logs(since=nil)
     logs = Array.new
-    AWSHelper.table_url_logs.items.each{ |item|
+    lowbound = since == nil ? Time.at(0) : since
+    AWSHelper.table_url_logs.items.query({:hash_value=>Region.region, :range_gte=>lowbound.to_i}){ |item|
       logs.push(item.attributes.to_h)
     }
     logs
