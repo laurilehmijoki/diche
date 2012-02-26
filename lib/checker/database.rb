@@ -8,7 +8,7 @@ class Database
     hash['uuid']
   end
 
-  def list_urls
+  def load_urls
     urls = Array.new
     AWSHelper.table_urls.items.each{ |item|
       urls.push(item.attributes["url"])

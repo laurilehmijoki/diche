@@ -16,7 +16,7 @@ describe Database do
     url = "http://google#{rand(100000)}.fi"
     Database.new.add_url(url)
     
-    urls = Database.new.list_urls
+    urls = Database.new.load_urls
     url_read = urls.include?url
     url_read.should == true
   end
