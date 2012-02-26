@@ -19,14 +19,20 @@ Thread.new do
 end
 
 Thread.new do
-  while true
-    sleep(3)
-    $sockets.each do |socket| 
-      puts "sending"
-      socket.send "hello"
+  require 'json'
+  require File.dirname(__FILE__)+"/../common/database"
+  begin
+    while true
+      sleep(3)
+      logs = Database.new.load_url_logs(Time.new)
+      puts "Discovered #{logs.length} new log entries from the database. Sending to #{$sockets.length} clients..." unless logs.empty?
+      $sockets.each do |socket| 
+        socket.send(logs.to_json) unless logs.empty?
+      end
     end
+  rescue Exception => e
+    puts "Encountered a problem: #{e.message}"
   end
-  puts "je"
 end
 
 sleep
