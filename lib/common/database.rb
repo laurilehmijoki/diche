@@ -28,7 +28,7 @@ class Database
     } 
   end
 
-  def list_url_logs
+  def load_url_logs
     logs = Array.new
     AWSHelper.table_url_logs.items.each{ |item|
       logs.push(item.attributes.to_h)
