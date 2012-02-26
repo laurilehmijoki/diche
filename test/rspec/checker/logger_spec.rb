@@ -4,12 +4,14 @@ require File.dirname(__FILE__)+"/../../../lib/checker/logger"
 describe Logger do
   it "writes a log record into AWS DynamoDB" do
     logger = Logger.new
-    uuid = logger.log_success({"url"=>"http://google.fi"})
+    url = "http://google#{rand(1000000)}.fi"
+    uuid = logger.log_success({"url"=>url})
 
     table_url_logs = AWSHelper.table_url_logs
-    table_url_logs.batch_get(:all, uuid).each_with_index{ |result, index| 
-      index.should == 0 # There should be exactly result
-      result['url'].should == "http://google.fi"
+    item_found = false
+    table_url_logs.items.each{ |item|
+      item_found = true if item.attributes['url'] == url 
     }
+    item_found.should == true
   end
 end 

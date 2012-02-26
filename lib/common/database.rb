@@ -1,5 +1,6 @@
 require File.dirname(__FILE__)+"/../common/aws_helper"
 require File.dirname(__FILE__)+"/../common/region"
+require 'uuidtools'
 
 class Database
   def add_url(url)
@@ -45,6 +46,7 @@ class Database
   private
 
   def add_common_attributes(hash)
+    hash.store("uuid", UUIDTools::UUID.random_create.to_s)
     hash.store("region", Region.region)
     hash.store("date", Time.new.to_i)
     hash
