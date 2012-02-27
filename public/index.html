@@ -19,11 +19,23 @@
       .connection-status-closed {
         color:red;
       }
+      .log-entry-headers {
+        font-weight:bold;
+      }
     </style>
     <script type="text/javascript">
       App = Em.Application.create();
       App.LogEntry = Em.Object.extend({}); 
       App.connectionStatus = Em.Object.create({}); 
+
+      App.logEntryController = Em.ArrayController.create({
+        content: [],
+
+        addEntry: function(json) {
+          console.log(json);
+          this.pushObject(App.LogEntry.create(json));
+        }
+      });
     </script>
     <script type="text/javascript">
       $(document).ready(function() {
@@ -34,7 +46,10 @@
           App.connectionStatus.set('open', true);
         }
         ws.onmessage = function(e) {
-          $("body").append(e.data);
+          var urlLogEntries = eval(e.data);
+          urlLogEntries.forEach(function(urlLogEntry) {
+            App.logEntryController.addEntry(urlLogEntry);
+          });
         }
         ws.onclose = function(e) {
           App.connectionStatus.set('open', false);
@@ -52,10 +67,50 @@
         <span class="connection-status-closed">No connection to the back-end</span>
         {{/if}}
       </script>
-      <div class="row"> 
-        <div class="span12">
+      <div class="row log-entry-headers">
+        <div class="span2">
+          URL
+        </div>
+        <div class="span2">
+          Message / HTTP code
+        </div>
+        <div class="span2">
+          Latency
+        </div>
+        <div class="span2">
+          Region
+        </div>
+        <div class="span2">
+          Host
+        </div>
+        <div class="span2">
+          Date
         </div>
       </div>
+      <script type="text/x-handlebars">
+      {{#each App.logEntryController.content}}
+      <div class="row log-entry">
+        <div class="span2">
+          &nbsp;{{this.url}}
+        </div>
+        <div class="span2">
+          &nbsp;{{#if this.code}}{{this.code}}{{else}}{{this.message}}{{/if}}
+        </div>
+        <div class="span2">
+          &nbsp;{{this.latency}}
+        </div>
+        <div class="span2">
+          &nbsp;{{this.region}}
+        </div>
+        <div class="span2">
+          &nbsp;{{this.hostname}}
+        </div>
+        <div class="span2">
+          &nbsp;{{this.date}}
+        </div>
+      </div>
+      {{/each}}
+      </script>
     </div>
   </body>
 </html>
