@@ -21,13 +21,16 @@ Thread.new do
   require 'json'
   require File.dirname(__FILE__)+"/../common/database"
   begin
+    interval = 5
+    last_run = Time.new + interval
     while true
-      sleep(3)
-      logs = Database.new.load_url_logs(Time.new)
+      sleep(interval)
+      logs = Database.new.load_url_logs(last_run)
       puts "Discovered #{logs.length} new log entries from the database. Sending to #{$sockets.length} clients..." unless logs.empty?
       $sockets.each do |socket| 
         socket.send(logs.to_json) unless logs.empty?
       end
+      last_run = Time.new
     end
   rescue Exception => e
     puts "Encountered a problem: #{e.message}"
