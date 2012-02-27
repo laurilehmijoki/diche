@@ -91,22 +91,22 @@
       {{#each App.logEntryController.content}}
       <div class="row log-entry">
         <div class="span2">
-          &nbsp;{{this.url}}
+          {{this.url}}&nbsp;
         </div>
         <div class="span2">
-          &nbsp;{{#if this.code}}{{this.code}}{{else}}{{this.message}}{{/if}}
+          {{#if this.code}}{{this.code}}{{else}}{{this.message}}{{/if}}&nbsp;
         </div>
         <div class="span2">
-          &nbsp;{{this.latency}}
+          {{this.latency}}&nbsp;
         </div>
         <div class="span2">
-          &nbsp;{{this.region}}
+          {{this.region}}&nbsp;
         </div>
         <div class="span2">
-          &nbsp;{{this.hostname}}
+          {{this.hostname}}&nbsp;
         </div>
         <div class="span2">
-          &nbsp;{{this.date}}
+          {{this.date}}&nbsp;
         </div>
       </div>
       {{/each}}
