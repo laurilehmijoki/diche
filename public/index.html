@@ -3,22 +3,59 @@
   <title>DiChe – DIstributed web site CHEcker</title>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://github.com/downloads/emberjs/ember.js/ember-0.9.5.min.js"></script>
+    <link href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css" rel="stylesheet"/>
+    <link href="http://twitter.github.com/bootstrap/assets/css/bootstrap-responsive.css" rel="stylesheet"/>
+    <style type="text/css">
+      body {
+        padding-top: 20px;
+        padding-bottom: 10px;
+      }
+      .connection-status-open {
+        color:green;
+      }
+      .connection-status-closed {
+        color:red;
+      }
+    </style>
+    <script type="text/javascript">
+      App = Em.Application.create();
+      App.LogEntry = Em.Object.extend({}); 
+      App.connectionStatus = Em.Object.create({}); 
+    </script>
     <script type="text/javascript">
       $(document).ready(function() {
         var ws_uri = "ws://localhost:8888";
 
         var ws = new WebSocket(ws_uri);
         ws.onopen = function(e) {
-          $("body").append(e.data);
+          App.connectionStatus.set('open', true);
         }
         ws.onmessage = function(e) {
           $("body").append(e.data);
+        }
+        ws.onclose = function(e) {
+          App.connectionStatus.set('open', false);
         }
       });
     </script>
   </head>
   <body>
-
+    <div class="container">
+      <h1>DiChe log tail</h1>
+      <script type="text/x-handlebars">
+        {{#if App.connectionStatus.open}}
+        <span class="connection-status-open">Waiting for messages from the back-end</span>
+        {{else}}
+        <span class="connection-status-closed">No connection to the back-end</span>
+        {{/if}}
+      </script>
+      <div class="row"> 
+        <div class="span12">
+        </div>
+      </div>
+    </div>
   </body>
 </html>

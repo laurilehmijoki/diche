@@ -7,7 +7,6 @@ Thread.new do
 
     EventMachine::WebSocket.start(:host => "0.0.0.0", :port => 8888) do |socket|
         socket.onopen {
-          socket.send "Connection established"
           $sockets << socket
         }
 
