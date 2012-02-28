@@ -17,6 +17,7 @@ require 'json'
 require File.dirname(__FILE__)+"/../lib/common/database"
 require File.dirname(__FILE__)+"/../lib/checker/web_site_checker"
 require File.dirname(__FILE__)+"/../lib/checker/logger"
+require File.dirname(__FILE__)+"/../lib/webui/ws_server" 
 
 include GLI
 
@@ -36,6 +37,18 @@ command [:delete_urls] do |c|
   c.action do |global_options,options,args|
     Database.new.delete_urls
   end 
+end
+
+desc 'Run the WebSocket server'
+command [:server] do |c|
+  c.action do
+    puts "Started a WebSocket server at port #{WSServer.port}"
+    test_client_file = File.expand_path(File.dirname(__FILE__)+"/../public/index.html")
+    if File.exists?test_client_file
+      puts "You can access the server by opening the file URL 'file://#{test_client_file}' in your browser"
+    end
+    WSServer.run
+  end
 end
 
 desc 'Check each URL in the database'
