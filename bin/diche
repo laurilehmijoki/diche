@@ -55,11 +55,8 @@ command [:check] do |c|
     raise "The interval must be at least #{interval_min} seconds" unless interval.to_i >= interval_min
 
     while true
-      puts "Checking URLS from region #{region} (interval #{interval} seconds)..."
       urls =  Database.new.load_urls
-      if urls.empty?
-        puts "No URLs in the database"
-      end
+      puts "Checking URLS from region #{region} (interval #{interval} seconds, URLs to check #{urls.length})..."
 
       logger = Logger.new
       WebSiteChecker.new(urls, logger).check
