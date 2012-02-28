@@ -1,5 +1,3 @@
-# Define the region on the CLI
-
 # Parameter for defining the check interval
 
 # Bundler and .gemspec
