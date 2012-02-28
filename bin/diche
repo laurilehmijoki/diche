@@ -40,7 +40,10 @@ end
 
 desc 'Check each URL in the database'
 command [:check] do |c|
+  c.desc "The region from which this operation is run. One of #{Region.all_regions.join(', ')}."
+  c.flag [:r,:region]
   c.action do |global_options,options,args|
+    puts "Checking URLS from region #{options[:r]}..."
     urls =  Database.new.load_urls
     if urls.empty?
       abort "No URLs in the database"

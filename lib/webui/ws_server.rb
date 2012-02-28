@@ -17,6 +17,13 @@ Thread.new do
   }
 end
 
+def send_logs_to_sockets(logs)
+  puts "Discovered #{logs.length} new log entries from the database. Sending to #{$sockets.length} clients..." unless logs.empty?
+  $sockets.each do |socket| 
+    socket.send(logs.to_json) unless logs.empty?
+  end
+end
+
 Thread.new do
   require 'json'
   require File.dirname(__FILE__)+"/../common/database"
@@ -25,16 +32,16 @@ Thread.new do
     last_run = Time.new + interval
     while true
       sleep(interval)
-      logs = Database.new.load_url_logs(last_run)
-      puts "Discovered #{logs.length} new log entries from the database. Sending to #{$sockets.length} clients..." unless logs.empty?
-      $sockets.each do |socket| 
-        socket.send(logs.to_json) unless logs.empty?
-      end
+      Region.all_regions.each{ |region|
+        logs = Database.new.load_url_logs(last_run, region)
+        send_logs_to_sockets(logs)
+      }
       last_run = Time.new
     end
   rescue Exception => e
     puts "Encountered a problem: #{e.message}"
   end
+
 end
 
 sleep
