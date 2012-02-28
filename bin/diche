@@ -42,17 +42,29 @@ desc 'Check each URL in the database'
 command [:check] do |c|
   c.desc "The region from which this operation is run. One of #{Region.all_regions.join(', ')}."
   c.flag [:r,:region]
+ 
+  interval_min = 30
+  c.desc "Interval in seconds. Determines how often the URL checker will run. Minimum #{interval_min} seconds."
+  c.flag [:i,:interval]
+  
   c.action do |global_options,options,args|
     region = options[:r] ? options[:r] : Region.region
     Region.set_region(region)
-    puts "Checking URLS from region #{region}..."
-    urls =  Database.new.load_urls
-    if urls.empty?
-      abort "No URLs in the database"
-    end
 
-    logger = Logger.new
-    WebSiteChecker.new(urls, logger).check
+    interval = options[:i] ? options[:i] : interval_min
+    raise "The interval must be at least #{interval_min} seconds" unless interval.to_i >= interval_min
+
+    while true
+      puts "Checking URLS from region #{region} (interval #{interval} seconds)..."
+      urls =  Database.new.load_urls
+      if urls.empty?
+        puts "No URLs in the database"
+      end
+
+      logger = Logger.new
+      WebSiteChecker.new(urls, logger).check
+      sleep(interval)
+    end
   end 
 end
 

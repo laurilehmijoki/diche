@@ -1,5 +1,3 @@
-# Parameter for defining the check interval
-
 # Bundler and .gemspec
 
 # CLI for entering DynamoDB credentials
