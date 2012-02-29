@@ -51,6 +51,12 @@ command [:server] do |c|
   end
 end
 
+desc "Run the setup"
+command [:setup] do |c|
+  c.action do
+    Configuration.new.prompt_and_save_creds
+  end
+end
 desc 'Check each URL in the database'
 command [:check] do |c|
   c.desc "The region from which this operation is run. One of #{Region.all_regions.join(', ')}."

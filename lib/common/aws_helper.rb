@@ -1,19 +1,17 @@
 require 'yaml'
 require 'aws-sdk'
+require File.dirname(__FILE__)+"/configuration"
 
 class AWSHelper
-
   @@dynamo_db = nil
-  
   def self.dynamo_db
     if @@dynamo_db != nil
       return @@dynamo_db # For performance reasons, load only once
     end
-    config_file = "aws.yml"
-    aws_config_file = File.dirname(__FILE__)+"/../../config/#{config_file}"
-    raise("Oops! You seem to have forgotten to create the config file #{aws_config_file}") unless File.exists?(aws_config_file)
-    config = YAML::load(File.open(aws_config_file))
-    @@dynamo_db = AWS::DynamoDB.new({"access_key_id"=>config['key'], "secret_access_key"=>config['secret']}) 
+    config = Configuration.new
+    username = config.get_db_username
+    password = config.get_db_password
+    @@dynamo_db = AWS::DynamoDB.new({"access_key_id"=>username, "secret_access_key"=>password}) 
   end
 
   def self.table_url_logs
