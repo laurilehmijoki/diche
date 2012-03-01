@@ -22,7 +22,7 @@ h2. Usage
 Run @bin/diche@ to see the all commands.
 
 To add an HTTP URL into the database, type @bin/diche add_url "http://mydandyurl.com"@.
-To run periodical checks on the URL(s), run @bin/diche check@ (see the available options by typing @bin/diche help check@). 
+To run periodical checks on the URLs, run @bin/diche check@ (see the available options by typing @bin/diche help check@). 
 
 h3. Monitoring the URL logs
 
