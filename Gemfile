@@ -1,5 +1,6 @@
 source "http://rubygems.org"
 
+gem "aws-sdk"
 gem "json"
 gem "gli"
 gem "uuidtools"
