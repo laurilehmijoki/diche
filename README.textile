@@ -31,4 +31,4 @@ To monitor the checks, run @bin/diche server@. This starts a WebSocket server th
 h2. LICENSE
 
 Released under the MIT license:
-"":http://www.opensource.org/licenses/MIT
+"http://www.opensource.org/licenses/MIT":http://www.opensource.org/licenses/MIT
