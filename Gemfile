@@ -1,5 +1,6 @@
 source "http://rubygems.org"
 
+gem "json"
 gem "gli"
 gem "uuidtools"
 gem "eventmachine"
