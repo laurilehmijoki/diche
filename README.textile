@@ -1,0 +1,34 @@
+h1. Distributed web site monitoring tool 
+
+DiChe is a tool for DIstributed web site CHEcking and monitoring. DiChe database contains HTTP URLs and URL log entries. The checking routine pulls each URL from the database and sends an HTTP request on them. It stores into the database the response time, HTTP status code and error message of each URL.
+
+Behind the scenes, DiChe uses Ruby EventMachine and AWS DynamoDB. The web UI is created with WebSockets, Ember.js and Twitter Bootstrap. 
+
+Thanks to DynamoDB, DiChe scales horizontally. The EventMachine'd checking routine allows each check cycle to run in constant time even with large amounts of URLs.
+
+h2. Installing
+
+To run DiChe you need an Amazon Web Services account. Once you have created the account, create a DynamoDB key pair for yourself. The setup will prompt for them.
+
+Now you are ready to install DiChe.
+
+* Run @bundle install@ to install the dependencies
+* Set up the credentials and database by invoking @bin/diche setup@
+
+DiChe is now ready for use.
+
+h2. Usage
+
+Run @bin/diche@ to see the all commands.
+
+To add an HTTP URL into the database, type @bin/diche add_url "http://mydandyurl.com"@.
+To run periodical checks on the URL(s), run @bin/diche check@ (see the available options by typing @bin/diche help check@). 
+
+h3. Monitoring the URL logs
+
+To monitor the checks, run @bin/diche server@. This starts a WebSocket server that periodically retrieves new URL logs from the database and sends them to WebSocket client(s). In the directory _public_ you can find an HTML/JavaScript client. Open it in your browser – it automatically connects to the WebSocket server running in your localhost.
+
+h2. LICENSE
+
+Released under the MIT license:
+"":http://www.opensource.org/licenses/MIT
