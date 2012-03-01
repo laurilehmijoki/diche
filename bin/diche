@@ -52,9 +52,11 @@ command [:server] do |c|
 end
 
 desc "Run the setup"
+long_desc "Prompts for database credentials and creates the database tables"
 command [:setup] do |c|
   c.action do
     Configuration.new.prompt_and_save_creds
+    AWSHelper.create_tables_if_needed
   end
 end
 desc 'Check each URL in the database'
@@ -82,6 +84,7 @@ command [:check] do |c|
         WebSiteChecker.new(urls, logger).check
         sleep(interval)
       rescue Exception => e
+        puts e.message
         puts e.backtrace
       end
     end
