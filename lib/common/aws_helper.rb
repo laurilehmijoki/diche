@@ -19,11 +19,11 @@ class AWSHelper
 
   def self.create_tables_if_needed
     unless dynamo_db.tables[@@table_name_url_logs].exists?
-      puts "Table for URL logs is missing – creating it..."
+      puts "Table for URL logs is missing - creating it..."
       dynamo_db.tables.create(@@table_name_url_logs, 25, 25, :hash_key => {:region=> :string}, :range_key=>{:date=>:number})
     end
     unless dynamo_db.tables[@@table_name_urls].exists?
-      puts "Table for URLs is missing – creating it..."
+      puts "Table for URLs is missing - creating it..."
       dynamo_db.tables.create(@@table_name_urls, 25, 12, :hash_key => {:url=> :string})
     end
   end

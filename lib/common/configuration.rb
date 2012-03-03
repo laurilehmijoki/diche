@@ -16,7 +16,7 @@ class Configuration
   end
   def error_if_config_missing
     unless File.exists?@yml_file
-      raise "Configuration file missing – please run setup first." 
+      raise "Configuration file missing - please run setup first." 
     end
   end
   def get_db_password

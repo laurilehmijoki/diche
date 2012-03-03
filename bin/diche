@@ -21,7 +21,7 @@ require File.dirname(__FILE__)+"/../lib/webui/ws_server"
 
 include GLI
 
-program_desc 'Diche – DIstributed web site CHEcker'
+program_desc 'Diche - DIstributed web site CHEcker'
 
 desc 'Add a URL into the database'
 command [:add_url] do |c|
