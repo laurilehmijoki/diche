@@ -28,6 +28,10 @@ h3. Monitoring the URL logs
 
 To monitor the checks, run @bin/diche server@. This starts a WebSocket server that periodically retrieves new URL logs from the database and sends them to WebSocket client(s). In the directory _public_ you can find an HTML/JavaScript client. Open it in your browser – it automatically connects to the WebSocket server running in your localhost.
 
+h2. Running tests
+
+Diche has both integration and unit tests. See @rake -T@ for more information.
+
 h2. LICENSE
 
 Released under the MIT license:
