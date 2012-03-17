@@ -91,10 +91,10 @@ command [:check] do |c|
   end 
 end
 
-desc 'List the log entries in the database'
+desc 'List all the log entries in the database'
 command [:logs] do |c|
   c.action do |global_options,options,args|
-    logs =  Database.new.load_url_logs
+    logs =  Database.new.load_all_url_logs
     if logs.empty?
       puts "No logs in the database" 
     else

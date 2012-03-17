@@ -36,8 +36,10 @@ class Database
     urls
   end
 
-  # Loads URL logs from the database
-  # If 'since' (a Time instance) is defined, loads entries that have been added after that date.
+  def load_all_url_logs(region=Region.region)
+    load_url_logs(nil, region)
+  end
+
   def load_url_logs(since=nil, region=Region.region)
     logs = Array.new
     lowbound = since == nil ? Time.at(0) : since
