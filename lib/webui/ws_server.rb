@@ -8,7 +8,7 @@ class WSServer
     @@port
   end
   def self.run
-    event_machine_thread
+    em_websocket_thread
     check_n_send_thread
 
     sleep
@@ -36,7 +36,7 @@ class WSServer
 
     end
   end
-  def self.event_machine_thread
+  def self.em_websocket_thread
     Thread.new do
       EventMachine.run {
 
