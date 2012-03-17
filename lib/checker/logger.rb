@@ -1,4 +1,3 @@
-require 'uuidtools'
 require File.dirname(__FILE__)+"/../common/database"
 
 class Logger
