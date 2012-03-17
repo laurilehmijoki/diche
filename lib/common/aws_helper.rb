@@ -1,4 +1,3 @@
-require 'yaml'
 require 'rubygems'
 require 'aws-sdk'
 require File.dirname(__FILE__)+"/configuration"
