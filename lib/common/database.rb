@@ -10,12 +10,10 @@ class Database
     hash['uuid']
   end
 
-  def load_urls
-    urls = Array.new
-    AWSHelper.table_urls.items.each{ |item|
-      urls.push(item.attributes["url"])
-    }
-    urls
+  def add_url_log(hash)
+    table_url_logs = AWSHelper.table_url_logs
+    table_url_logs.items.create(add_common_attributes(hash))
+    hash['uuid']
   end
 
   def delete_urls
@@ -30,6 +28,14 @@ class Database
     } 
   end
 
+  def load_urls
+    urls = Array.new
+    AWSHelper.table_urls.items.each{ |item|
+      urls.push(item.attributes["url"])
+    }
+    urls
+  end
+
   # Loads URL logs from the database
   # If 'since' (a Time instance) is defined, loads entries that have been added after that date.
   def load_url_logs(since=nil, region=Region.region)
@@ -39,12 +45,6 @@ class Database
       logs.push(item.attributes.to_h)
     }
     logs
-  end
-
-  def add_url_log(hash)
-    table_url_logs = AWSHelper.table_url_logs
-    table_url_logs.items.create(add_common_attributes(hash))
-    hash['uuid']
   end
 
   private
